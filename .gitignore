@@ -1,14 +1,36 @@
-.htaccess
-wp-config.php
-wp-content/uploads/
-wp-content/blogs.dir/
-wp-content/upgrade/
-wp-content/backup-db/
-wp-content/advanced-cache.php
-wp-content/wp-cache-config.php
-sitemap.xml
-*.log
-wp-content/cache/
-wp-content/backups/
-sitemap.xml
-sitemap.xml.gz
+<?php if ( ! have_posts() ) : ?>
+  <div id="post-0" class="post error404 not-found">
+		<h1 class="entry-title"><?php _e( 'Not Found', 'imbalance2' ); ?></h1>
+		<div class="entry-content">
+			<p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'imbalance2' ); ?></p>
+			<?php get_search_form(); ?>
+		</div><!-- .entry-content -->
+	</div><!-- #post-0 -->
+<?php endif; ?>
+
+
+<?php $imbalance2_theme_options = get_option('imbalance2_theme_options') ?>
+
+<div id="boxes">
+<?php while ( have_posts() ) : the_post(); ?>
+
+
+	<div class="box" onclick="location.href='<?php the_permalink(); ?>';" style="cursor:pointer;">
+		<div class="rel">
+			<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('homepage-thumb', array('alt' => '', 'title' => '')) ?></a>
+	<?php if ($imbalance2_theme_options['images_only'] == 0): ?>
+			<div class="categories"><?php imbalance2_posted_in(); ?></div>
+			<h1><a class="excerpt" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+		<?php the_excerpt() ?></a>
+
+	<?php endif ?>
+			<div class="texts">
+	<?php if ($imbalance2_theme_options['images_only'] == 1): ?>
+				<a class="transparent" href="<?php the_permalink(); ?>"><?php the_post_thumbnail('homepage-thumb', array('alt' => '', 'title' => '')) ?></a>
+	<?php endif ?>
+			
+			</div>
+		</div>
+	</div>
+
+<?php endwhile; ?>
